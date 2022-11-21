@@ -1,5 +1,5 @@
 /**
- * Welcome to Cloudflare Workers! This is your first scheduled worker.
+ * Welcome to Cloudflare Workers!
  *
  * - Run `wrangler dev --local` in your terminal to start a development server
  * - Run `curl "http://localhost:8787/cdn-cgi/mf/scheduled"` to trigger the scheduled event
