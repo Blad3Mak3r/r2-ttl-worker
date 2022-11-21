@@ -1,0 +1,12 @@
+name = "r2-ttl-worker"
+main = "src/index.ts"
+compatibility_date = "2022-11-21"
+
+account_id = "YOUR CLOUDFLARE ACCOUNT ID"
+
+[triggers]
+crons = [ "0 8 * * *" ]
+
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "YOUR BUCKET NAME"
