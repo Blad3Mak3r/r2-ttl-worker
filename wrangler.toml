@@ -2,7 +2,7 @@ name = "r2-ttl-worker"
 main = "src/index.ts"
 compatibility_date = "2022-11-21"
 
-account_id = "YOUR CLOUDFLARE ACCOUNT ID"
+workers_dev = false
 
 [triggers]
 crons = [ "0 8 * * *" ]
