@@ -52,9 +52,15 @@ export default {
 		}
 
 		const expiredObjects = listed.objects.filter((o) => getExpired(o))
-		console.log(`Following objects will be removed:\n${expiredObjects.map(o => `\n- ${o.key} (${o.size}) [${o.uploaded.getTime()}]`)}`)
+
+		if (expiredObjects.length < 1) {
+			console.info("There are no expired items!")
+			return
+		}
+
+		console.info(`Following objects will be removed:\n${expiredObjects.map(o => `\n- ${o.key} (${o.size}) [${o.uploaded.getTime()}]`)}`)
 
 		await env.R2_BUCKET.delete(expiredObjects.map(o => o.key))
-		console.log(`Deleted a total of ${expiredObjects.length} R2Objects`)
+		console.info(`Deleted a total of ${expiredObjects.length} R2Objects`)
 	},
 };
