@@ -22,9 +22,7 @@ export interface Env {
 	R2_BUCKET: R2Bucket;
 }
 
-function getDaysBetween(d1: Date, d2: Date): number {
-	return (Math.abs(d1.getTime() - d2.getTime())) / (1000 * 60 * 60 * 24)
-}
+const TTL = 30
 
 export default {
 	async scheduled(
@@ -47,8 +45,13 @@ export default {
 			cursor = next.cursor
 		}
 
-		const now = new Date()
-		const expiredObjects = listed.objects.filter((o) => getDaysBetween(now, o.uploaded) > 30)
+		const now = new Date().getTime()
+
+		function getExpired(o: R2Object): boolean {
+			return (Math.abs(now - o.uploaded.getTime())) / (1000 * 60 * 60 * 24) > TTL
+		}
+
+		const expiredObjects = listed.objects.filter((o) => getExpired(o))
 		console.log(`Following objects will be removed:\n${expiredObjects.map(o => `\n- ${o.key} (${o.size}) [${o.uploaded.getTime()}]`)}`)
 
 		await env.R2_BUCKET.delete(expiredObjects.map(o => o.key))
